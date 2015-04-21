@@ -4,6 +4,9 @@ import org.scalatra.sbt._
 import org.scalatra.sbt.PluginKeys._
 import com.mojolly.scalate.ScalatePlugin._
 import ScalateKeys._
+import com.heroku.sbt.HerokuPlugin
+import com.heroku.sbt.HerokuPlugin.autoImport._
+import com.typesafe.sbt.packager.archetypes._
 
 object KaybotBuild extends Build {
   val Organization = "com.github.metermaid"
@@ -27,11 +30,12 @@ object KaybotBuild extends Build {
         "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
         "org.scalatra" %% "scalatra-scalatest" % ScalatraVersion % "test",
         "ch.qos.logback" % "logback-classic" % "1.1.2" % "runtime",
-        "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505" % "container",
-        "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "container",
+        "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505" % "compile;container",
+        "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "compile;container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0",
         "com.twilio.sdk" % "twilio-java-sdk" % "4.0.0"
       ),
+      herokuAppName in Compile := "kaybot",
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
         Seq(
           TemplateConfig(
@@ -45,5 +49,5 @@ object KaybotBuild extends Build {
         )
       }
     )
-  )
+  ).enablePlugins(JavaAppPackaging)
 }
