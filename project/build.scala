@@ -33,7 +33,8 @@ object KaybotBuild extends Build {
         "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505" % "compile;container",
         "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "compile;container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0",
-        "com.twilio.sdk" % "twilio-java-sdk" % "4.0.0"
+        "com.twilio.sdk" % "twilio-java-sdk" % "4.0.0",
+        "org.scalamock" %% "scalamock-scalatest-support" % "3.2" % "test"
       ),
       herokuAppName in Compile := "kaybot",
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
