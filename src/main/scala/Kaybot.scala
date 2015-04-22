@@ -7,10 +7,14 @@ import java.util.Random
 import com.twilio.sdk.TwilioRestClient
 import com.twilio.sdk.resource.instance.Sms
 
+import com.twilio.sdk.verbs.TwiMLResponse
+import com.twilio.sdk.verbs.TwiMLException
+import com.twilio.sdk.verbs.Message
+
 import scala.collection.JavaConversions._
 
 class Kaybot extends KaybotStack {
-
+	
 	private var compliments = Array("You're beautiful", "You're lovely", "I hope you have a lovely day")
 
 	get("/") {
@@ -38,6 +42,24 @@ class Kaybot extends KaybotStack {
 		redirect("/")
 	}
 
+	post("/sms") {
+		contentType = "application/xml"
+
+		val twiml = new TwiMLResponse()
+		val message = new Message(generate_compliment())
+
+		try {
+			twiml.append(message);
+		} catch {
+			case twimlex: TwiMLException => twimlex.printStackTrace()
+		}
+
+		twiml.toXML()
+	}
+
+	notFound {
+		response.sendError(404)
+	}
 
 	private def generate_compliment() = {
 		val rand = new Random()
