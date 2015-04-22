@@ -2,8 +2,12 @@ package com.github.metermaid.kaybot
 
 import org.scalatra._
 import scalate.ScalateSupport
+import java.util.Random
+
 
 class Kaybot extends KaybotStack {
+
+	var compliments = Array("You're beautiful", "You're lovely", "I hope you have a lovely day")
 
 	get("/") {
 		<html>
@@ -15,7 +19,9 @@ class Kaybot extends KaybotStack {
 	}
 
 	def generate_compliment() = {
-		"You're beautiful"
+		val rand = new Random()
+		val i = rand.nextInt(compliments.length)
+		compliments(i)
 	}
 
 }
